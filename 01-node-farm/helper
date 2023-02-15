@@ -1,0 +1,14 @@
+# init a modejs project
+npm init
+
+ #add a dependency for project
+ npm install slugify
+
+ #remove a dependency from project
+ npm rm slugify
+
+#add a dependency for development purpose
+npm install nodemon --save-dev
+
+# run a script with npm
+npm run start:dev

@@ -4,6 +4,8 @@ const fs = require('fs');
 const data = fs.readFileSync("./dev-data/data.json","utf-8");
 const jsonData = JSON.parse(data);  //convert text to Js object
 
+// console.log(jsonData);
+
 //request - response
 const server = http.createServer((req, res) => {
     console.log(req.url);
