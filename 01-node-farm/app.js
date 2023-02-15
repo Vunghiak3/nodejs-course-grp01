@@ -1,5 +1,6 @@
 const http = require('http');
 const fs = require('fs');
+const url = require('url');
 
 const data = fs.readFileSync(`${__dirname}/dev-data/data.json`,"utf-8");
 const itemArr = JSON.parse(data);  //convert text to Js object
@@ -10,22 +11,26 @@ const templateCard = fs.readFileSync(`${__dirname}/templates/card.html`, 'utf-8'
 
 const replaceTemplate = (template, product) => {
     //using replace by regular expression  - g means global
+
+
     let output = template.replace(/{%PRODUCTNAME%}/g, product.productName);
     output = output.replace(/{%IMAGE%}/g, product.image);
     output = output.replace(/{%PRICE%}/g, product.price);
     output = output.replace(/{%QUANTITY%}/g, product.quantity);
+    output = output.replace(/{%ID%}/g, product.id);
     if (!product.organic){
         output = output.replace(/{%NOT_ORGANIC%}/g, 'not-organic');
     }
+
     return output;
 }
 
 //request - response
 const server = http.createServer((req, res) => {
     console.log(req.url);
-    const pathName = req.url;
+    const {query, pathname} = url.parse(req.url, true)
 
-    if (pathName === '/overview'){
+    if (pathname === '/overview'){
         const cardsHtml = itemArr.map(d => replaceTemplate(templateCard, d));
 
         // let cardsHtml = [];
@@ -39,12 +44,14 @@ const server = http.createServer((req, res) => {
             'Content-type': 'text/html',
         })
         res.end(output);
-    }else if (pathName === '/product'){
+    }else if (pathname === '/product'){
+        const id  = query.id*1;
+        console.log(id);
         res.writeHead(200,{
             'Content-type': 'text/html',
         })
         res.end(templateProduct);
-    }else if (pathName === '/api'){
+    }else if (pathname === '/api'){
         res.writeHead(200,{
             'Content-type': 'application/json',
         })
