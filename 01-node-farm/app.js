@@ -14,6 +14,9 @@ const replaceTemplate = (template, product) => {
     output = output.replace(/{%IMAGE%}/g, product.image);
     output = output.replace(/{%PRICE%}/g, product.price);
     output = output.replace(/{%QUANTITY%}/g, product.quantity);
+    if (!product.organic){
+        output = output.replace(/{%NOT_ORGANIC%}/g, 'not-organic');
+    }
     return output;
 }
 
