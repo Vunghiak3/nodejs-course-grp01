@@ -2,10 +2,20 @@ const http = require('http');
 const fs = require('fs');
 
 const data = fs.readFileSync(`${__dirname}/dev-data/data.json`,"utf-8");
-const jsonData = JSON.parse(data);  //convert text to Js object
+const itemArr = JSON.parse(data);  //convert text to Js object
 
 const templateOverview = fs.readFileSync(`${__dirname}/templates/overview.html`, 'utf-8');
-const productOverview = fs.readFileSync(`${__dirname}/templates/product.html`, 'utf-8');
+const templateProduct = fs.readFileSync(`${__dirname}/templates/product.html`, 'utf-8');
+const templateCard = fs.readFileSync(`${__dirname}/templates/card.html`, 'utf-8');
+
+const replaceTemplate = (template, product) => {
+    //using replace by regular expression  - g means global
+    let output = template.replace(/{%PRODUCTNAME%}/g, product.productName);
+    output = output.replace(/{%IMAGE%}/g, product.image);
+    output = output.replace(/{%PRICE%}/g, product.price);
+    output = output.replace(/{%QUANTITY%}/g, product.quantity);
+    return output;
+}
 
 //request - response
 const server = http.createServer((req, res) => {
@@ -13,15 +23,24 @@ const server = http.createServer((req, res) => {
     const pathName = req.url;
 
     if (pathName === '/overview'){
+        const cardsHtml = itemArr.map(d => replaceTemplate(templateCard, d));
+
+        // let cardsHtml = [];
+        // for (let i = 0; i < itemArr.length; i++){
+        //     const item = itemArr[i];
+        //     cardsHtml.push(replaceTemplate(templateCard, item));
+        // }
+
+        let output = templateOverview.replace(/{%PRODUCT_CARD%/g, cardsHtml.join(''));
         res.writeHead(200,{
             'Content-type': 'text/html',
         })
-        res.end(templateOverview);
+        res.end(output);
     }else if (pathName === '/product'){
         res.writeHead(200,{
             'Content-type': 'text/html',
         })
-        res.end(productOverview);
+        res.end(templateProduct);
     }else if (pathName === '/api'){
         res.writeHead(200,{
             'Content-type': 'application/json',
