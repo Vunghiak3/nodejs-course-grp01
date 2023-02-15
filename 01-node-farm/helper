@@ -1,6 +1,8 @@
 # init a modejs project
 npm init
 
+ npm install
+
  #add a dependency for project
  npm install slugify
 

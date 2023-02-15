@@ -1,36 +1,32 @@
 const http = require('http');
 const fs = require('fs');
 
-const data = fs.readFileSync("./dev-data/data.json","utf-8");
+const data = fs.readFileSync(`${__dirname}/dev-data/data.json`,"utf-8");
 const jsonData = JSON.parse(data);  //convert text to Js object
 
-// console.log(jsonData);
+const templateOverview = fs.readFileSync(`${__dirname}/templates/overview.html`, 'utf-8');
+const productOverview = fs.readFileSync(`${__dirname}/templates/product.html`, 'utf-8');
 
 //request - response
 const server = http.createServer((req, res) => {
     console.log(req.url);
     const pathName = req.url;
-    if (pathName === '/overview'){
-        res.end('THIS IS OVERVIEW PAGE');
-    }else if (pathName === '/product'){
-        res.end('THIS IS PRODUCT PAGE')
-    }else if (pathName === '/api'){
-        //Method 1: read the data every time request come in
-        // fs.readFile("./dev-data/data.json","utf-8", (err, data) => {
-        //     const jsonData = JSON.parse(data);  //convert text to Js object
-        //     console.log(jsonData)
-        //
-        //     res.writeHead(200,{
-        //         'Content-type': 'application/json',
-        //     })
-        //     res.end(data);
-        // });
 
+    if (pathName === '/overview'){
+        res.writeHead(200,{
+            'Content-type': 'text/html',
+        })
+        res.end(templateOverview);
+    }else if (pathName === '/product'){
+        res.writeHead(200,{
+            'Content-type': 'text/html',
+        })
+        res.end(productOverview);
+    }else if (pathName === '/api'){
         res.writeHead(200,{
             'Content-type': 'application/json',
         })
         res.end(data);
-
     } else{
         res.writeHead(404,{
             'Content-type': 'text/html',
@@ -41,7 +37,6 @@ const server = http.createServer((req, res) => {
 
 
 });
-
 
 //starting up the server, wait for the requests to serve
 server.listen(8080, () => {
