@@ -39,7 +39,7 @@ const server = http.createServer((req, res) => {
         //     cardsHtml.push(replaceTemplate(templateCard, item));
         // }
 
-        let output = templateOverview.replace(/{%PRODUCT_CARD%/g, cardsHtml.join(''));
+        let output = templateOverview.replace(/{%PRODUCT_CARD%}/g, cardsHtml.join(''));
         res.writeHead(200,{
             'Content-type': 'text/html',
         })
