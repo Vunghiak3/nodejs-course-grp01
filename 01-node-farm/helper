@@ -14,3 +14,14 @@ npm install nodemon --save-dev
 
 # run a script with npm
 npm run start:dev
+
+#################GIT#########################
+
+#clone a project to local
+git clone https://github.com/saivnct/nodejs-course-grp01.git
+
+#pull project
+git pull
+
+#reset to HEAD
+git reset --hard HEAD
