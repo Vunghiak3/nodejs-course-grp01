@@ -1,0 +1,8 @@
+# clone a project to local
+git clone https://github.com/saivnct/nodejs-course-grp01.git
+
+# pull a project (update src code)
+git pull
+
+#reset to HEAD
+git reset --hard HEAD
