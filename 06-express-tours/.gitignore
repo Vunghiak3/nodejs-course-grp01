@@ -1,0 +1,4 @@
+/node_modules/
+/.idea
+.DS_Store
+dev-data/.DS_Store
