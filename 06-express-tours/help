@@ -13,6 +13,10 @@ npm install nodemon --save-dev
 #install express version 4
 npm install express@4
 
+#run application with nodemon
+npm run start:dev
+
+
 
 
 
