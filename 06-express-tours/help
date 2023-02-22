@@ -1,0 +1,22 @@
+#Download postman
+https://www.postman.com/
+
+
+
+#Working directory: 06-express-tours
+
+#init project
+npm init
+
+#install nodemon
+npm install nodemon --save-dev
+
+#install express version 4
+npm install express@4
+
+
+
+
+
+
+
