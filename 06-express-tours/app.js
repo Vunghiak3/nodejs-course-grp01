@@ -7,20 +7,65 @@ const dataArr = JSON.parse(data);
 //using express.json middleware -> stand between req and response
 app.use(express.json());
 
-app.post('/createTour', (req, res) => {
+const createTourHandler = (req, res) => {
     console.log(req.body);
-
-
-    res
-        .status(200)
-        .json({
-            code: 200,
-            msg: 'OK'
-        });
-})
-
-
-app.get('/deleteTour/:id', (req, res) => {
+    const newTour = req.body;
+    dataArr.push(newTour);
+    const jsonText = JSON.stringify(dataArr);
+    fs.writeFile('./dev-data/data/tours-simple.json',jsonText , (err) => {
+        if(!err) {
+            res
+                .status(201) //HTTP COde 201 = Created
+                .json({
+                    code: 201,
+                    msg: `Add new tour successfully!`,
+                    data: {
+                        tour: newTour
+                    }
+                });
+        } else {
+            res
+                .status(500)    //HTTP COde 500 = Internal Error
+                .json({
+                    code: 500,
+                    msg: `Add new tour fail!`
+                });
+        }
+    });
+}
+const updateTourHandler = (req, res) => {
+    const id = req.params.id * 1;
+    const index = dataArr.findIndex((tour) => {return tour.id === id});
+    if (index < 0){
+        return res.status(404)  //HTTP COde 404 = Not Found
+            .json({
+                code: 404,
+                msg: `Not found tour with ${id}!`
+            })
+    }
+    const updateInfo = req.body;
+    const tourUpdate = dataArr[index];
+    // console.log('Data update by Id',tourUpdate);
+    // if (updateInfo.name !== null && updateInfo.name !== undefined && updateInfo.name.length>0){
+    if (updateInfo.name){
+        tourUpdate.name = updateInfo.name;
+    }
+    if (typeof updateInfo.duration === 'number' && updateInfo.duration > 0){
+        tourUpdate.duration = updateInfo.duration;
+    }
+    if (typeof updateInfo.maxGroupSize === 'number'  && updateInfo.maxGroupSize > 0){
+        tourUpdate.maxGroupSize = updateInfo.maxGroupSize;
+    }
+    fs.writeFile('./dev-data/data/tours-simple.json', JSON.stringify(dataArr) , (err) => {
+        res
+            .status(200)
+            .json({
+                code: 200,
+                msg: `Update id: ${id} successfully!`
+            });
+    })
+}
+const deleteTourHandler = (req, res) => {
     const id = req.params.id*1;
     // let index = -1;
     // for (let i = 0; i < dataArr.length; i++){
@@ -52,11 +97,8 @@ app.get('/deleteTour/:id', (req, res) => {
                 msg: `Not found tour with ${id}!`
             })
     }
-})
-
-
-//localhost:9001/getTour/3
-app.get('/getTour/:id', (req, res) => {
+}
+const getTourHandler = (req, res) => {
     console.log(req.params);
     const id = req.params.id * 1;
     const index = dataArr.findIndex((tour) => {return tour.id === id});
@@ -80,9 +122,8 @@ app.get('/getTour/:id', (req, res) => {
                 msg: `Not found tour with ${id}!`
             })
     }
-});
-
-app.get('/getAllTours', (req, res) => {
+}
+const getAllTourHandler = (req, res) => {
     let result = {
         code: 200,
         msg: 'OK',
@@ -93,21 +134,14 @@ app.get('/getAllTours', (req, res) => {
 
     res.status(200)
         .json(result);
-});
+}
 
-app.get('/', (req, res) => {
-      res.status(200)  //HTTP Status Code 200 = OK
-          .send('GET - Hello from sv!');
-});
-
-app.post('/', (req, res) => {
-    const person = {
-        name: 'AAAA',
-        age: 10
-    };
-    res.status(200)  //HTTP Status Code 200 = OK
-        .json(person);  //response body as JSON
-});
+//CRUD OPERATIONS
+app.post('/tours', createTourHandler);
+app.patch('/tours/:id', updateTourHandler);
+app.delete('/tours/:id', deleteTourHandler)
+app.get('/tours/:id', getTourHandler);
+app.get('/tours', getAllTourHandler);
 
 
 
