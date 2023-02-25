@@ -1,0 +1,144 @@
+{
+	"info": {
+		"_postman_id": "d04a725e-6fe5-40a7-b96c-f1facf0eaebc",
+		"name": "grp01-tours",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "tour",
+			"item": [
+				{
+					"name": "get tour by id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:9001/api/v1/tours/3",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9001",
+							"path": [
+								"api",
+								"v1",
+								"tours",
+								"3"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete tour by id",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:9001/api/v1/tours/2",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9001",
+							"path": [
+								"api",
+								"v1",
+								"tours",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get all tours",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:9001/api/v1/tours",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9001",
+							"path": [
+								"api",
+								"v1",
+								"tours"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create tour",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "  {\n    \"id\": 9,\n    \"name\": \"The Northern Lights\",\n    \"duration\": 3,\n    \"maxGroupSize\": 12,\n    \"difficulty\": \"easy\",\n    \"ratingsAverage\": 4.9,\n    \"ratingsQuantity\": 33,\n    \"price\": 1497,\n    \"summary\": \"Enjoy the Northern Lights in one of the best places in the world\",\n    \"description\": \"Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua, ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum!\\nDolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur, exercitation ullamco laboris nisi ut aliquip. Lorem ipsum dolor sit amet, consectetur adipisicing elit!\",\n    \"imageCover\": \"tour-9-cover.jpg\",\n    \"images\": [\"tour-9-1.jpg\", \"tour-9-2.jpg\", \"tour-9-3.jpg\"],\n    \"startDates\": [\"2021-12-16,10:00\", \"2022-01-16,10:00\", \"2022-12-12,10:00\"]\n  }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:9001/api/v1/tours",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9001",
+							"path": [
+								"api",
+								"v1",
+								"tours"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update tour by id",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "  {\n    \"name\": \"AAAA\",\n    \"duration\": 15\n  }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:9001/api/v1/tours/0",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9001",
+							"path": [
+								"api",
+								"v1",
+								"tours",
+								"0"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "user",
+			"item": []
+		}
+	]
+}
