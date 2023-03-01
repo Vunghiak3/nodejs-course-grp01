@@ -16,6 +16,9 @@ npm install express@4
 #run application with nodemon
 npm run start:dev
 
+#install morgan
+#3rd-party middleware #https://github.com/expressjs/morgan
+npm install morgan
 
 
 

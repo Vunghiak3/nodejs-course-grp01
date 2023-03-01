@@ -1,0 +1,65 @@
+-- CREATE DB
+create database ToursDemo
+
+
+-- CREATE table
+use ToursDemo
+go
+create table Tours(
+    id int identity (1,1) primary key not null ,
+    name varchar(200) not null unique,
+    rating float default 4.5 CHECK (rating >= 0 AND rating <= 5),
+    price int not null CHECK (price >= 0),
+)
+
+-- DROP table
+use ToursDemo
+go
+Drop table Tours
+
+
+-- insert data into table
+use ToursDemo
+go
+insert into Tours
+    (name, price)
+values
+    ('tour 1',100)
+
+
+-- insert data into table
+use ToursDemo
+go
+insert into Tours
+    (name, rating, price)
+values
+    ('tour 2', 3, 100)
+
+
+
+-- update data in table
+use ToursDemo
+go
+update Tours
+set  name = 'Tours 3',
+     price = 200,
+     rating = 4.5
+where Id = 2
+
+
+
+-- delete data from table
+use ToursDemo
+go
+delete Tours
+where id = 3
+
+
+-- DELETE DB
+USE master;
+GO
+ALTER DATABASE ToursDemo
+SET SINGLE_USER
+WITH ROLLBACK IMMEDIATE;
+GO
+DROP DATABASE ToursDemo;

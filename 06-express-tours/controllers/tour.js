@@ -121,6 +121,8 @@ exports.getTourHandler = (req, res) => {
     }
 }
 exports.getAllTourHandler = (req, res) => {
+    console.log(req.requestTime);
+
     let result = {
         code: 200,
         msg: 'OK',
