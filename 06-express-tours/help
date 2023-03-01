@@ -20,6 +20,18 @@ npm run start:dev
 #3rd-party middleware #https://github.com/expressjs/morgan
 npm install morgan
 
+#reading environment variables with dotenv
+npm install dotenv
+
+
+
+
+
+
+
+
+
+
 
 
 
