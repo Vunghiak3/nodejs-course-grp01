@@ -24,6 +24,17 @@ npm install morgan
 npm install dotenv
 
 
+#tedious is the implementation of the TDS protocol which the driver uses to communicate to SQL Server
+npm install tedious
+#using mssql as wrapper of tedious
+#mssql has built-in SQL injection protection. Always use parameters or tagged template literals to pass sanitized values to your queries.
+npm install mssql
+
+
+
+
+
+
 
 
 
