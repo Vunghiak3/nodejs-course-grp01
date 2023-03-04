@@ -1,0 +1,110 @@
+-- CREATE DB
+create database ToursDemoGrp01
+
+
+-- CREATE table
+use ToursDemoGrp01
+go
+create table Tours(
+    id              int primary key     not null,
+    name            varchar(200)                       not null unique,
+    duration        int                                not null CHECK (duration >= 0),
+    maxGroupSize    int                                not null CHECK (maxGroupSize >= 0),
+    difficulty      varchar(10)                        not null,
+    ratingsAverage  float default 4.5 CHECK (ratingsAverage >= 0 AND ratingsAverage <= 5),
+    ratingsQuantity int default 0 CHECK (ratingsQuantity >= 0),
+    price           int                                not null CHECK (price >= 0),
+    summary         varchar(max),
+    description     varchar(max)                       not null,
+    imageCover      varchar(200)                       not null,
+    createdAt       datetime default CURRENT_TIMESTAMP not null,
+)
+
+
+use ToursDemoGrp01
+go
+create table TourImage
+(
+    tourId int foreign key references Tours(id) not null,
+    imgName varchar(200) not null,
+)
+
+
+use ToursDemoGrp01
+go
+create table TourStartDate
+(
+    tourId int foreign key references Tours(id) not null,
+    date datetime not null,
+)
+
+
+
+-- insert data into table
+use ToursDemoGrp01
+go
+insert into TourImage
+    (tourId, imgName)
+SELECT
+    1, 'Img1'
+WHERE NOT EXISTS(SELECT * FROM TourImage WHERE tourId = 1 AND imgName = 'Img1')
+
+
+use ToursDemoGrp01
+go
+insert into TourStartDate
+    (tourId, date)
+SELECT
+    1, '20120618 10:34:09 AM'
+WHERE NOT EXISTS(SELECT * FROM TourStartDate WHERE tourId = 1 AND date = '20120618 10:34:09 AM')
+
+
+-- insert data into table Tours
+use ToursDemoGrp01
+go
+insert into Tours
+    (id, name, difficulty, duration, maxGroupSize, price, description, imageCover)
+values
+    (0,'tour 1', 'medium', 10, 5, 10000, 'description', 'image')
+
+
+-- insert data into table Tours if not existed
+use ToursDemoGrp01
+go
+insert into Tours
+    (id, name, difficulty, duration, maxGroupSize, price, description, imageCover)
+SELECT
+    0, 'tour 1', 'medium', 10, 5, 10000, 'description', 'image'
+WHERE NOT EXISTS(SELECT * FROM Tours WHERE id = 0)
+
+
+
+
+
+-- QUERY
+select * from Tours where duration >= 5 AND duration < 8 ORDER BY duration asc, maxGroupSize asc OFFSET 0 ROWS FETCH NEXT 10 ROWS ONLY;
+
+SELECT COUNT(DISTINCT id) as totalItem from Tours
+
+
+-- CLEAR table
+use ToursDemoGrp01
+go
+delete Tours
+
+
+
+-- DROP table
+use ToursDemoGrp01
+go
+Drop table Tours
+
+
+use ToursDemoGrp01
+go
+Drop table TourImage
+
+
+use ToursDemoGrp01
+go
+Drop table TourStartDate

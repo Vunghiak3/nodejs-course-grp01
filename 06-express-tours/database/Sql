@@ -1,9 +1,9 @@
 -- CREATE DB
-create database ToursDemo
+create database ToursDemoGrp01
 
 
 -- CREATE table
-use ToursDemo
+use ToursDemoGrp01
 go
 create table Tours(
     id int identity (1,1) primary key not null ,
@@ -13,13 +13,13 @@ create table Tours(
 )
 
 -- DROP table
-use ToursDemo
+use ToursDemoGrp01
 go
 Drop table Tours
 
 
 -- insert data into table
-use ToursDemo
+use ToursDemoGrp01
 go
 insert into Tours
     (name, price)
@@ -28,7 +28,7 @@ values
 
 
 -- insert data into table
-use ToursDemo
+use ToursDemoGrp01
 go
 insert into Tours
     (name, rating, price)
@@ -38,7 +38,7 @@ values
 
 
 -- update data in table
-use ToursDemo
+use ToursDemoGrp01
 go
 update Tours
 set  name = 'Tours 3',
@@ -49,7 +49,7 @@ where Id = 2
 
 
 -- delete data from table
-use ToursDemo
+use ToursDemoGrp01
 go
 delete Tours
 where id = 3
@@ -58,8 +58,8 @@ where id = 3
 -- DELETE DB
 USE master;
 GO
-ALTER DATABASE ToursDemo
+ALTER DATABASE ToursDemoGrp01
 SET SINGLE_USER
 WITH ROLLBACK IMMEDIATE;
 GO
-DROP DATABASE ToursDemo;
+DROP DATABASE ToursDemoGrp01;
