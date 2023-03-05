@@ -59,6 +59,14 @@ SELECT
 WHERE NOT EXISTS(SELECT * FROM TourStartDate WHERE tourId = 1 AND date = '20120618 10:34:09 AM')
 
 
+
+-- get last id of Tours
+use ToursDemoGrp01
+go
+SELECT MAX(id) as id FROM Tours
+
+
+
 -- insert data into table Tours
 use ToursDemoGrp01
 go
