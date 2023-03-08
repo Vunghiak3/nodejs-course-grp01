@@ -71,14 +71,15 @@ SELECT MAX(id) as id FROM Tours
 use ToursDemoGrp01
 go
 insert into Tours
-    (id, name, difficulty, duration, maxGroupSize, price, description, imageCover)
+    ( name, difficulty, duration, maxGroupSize, price, description, imageCover)
 values
-    (0,'tour 1', 'medium', 10, 5, 10000, 'description', 'image')
+    ('tour 1', 'medium', 10, 5, 10000, 'description', 'image')
 
 
 -- insert data into table Tours if not existed
 use ToursDemoGrp01
 go
+SET IDENTITY_INSERT Tours ON
 insert into Tours
     (id, name, difficulty, duration, maxGroupSize, price, description, imageCover)
 SELECT
