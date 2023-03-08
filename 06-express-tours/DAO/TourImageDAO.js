@@ -9,7 +9,6 @@ exports.getByTourId = async (tourId) => {
         .request()
         .input('tourId', sql.Int, tourId)
         .query('SELECT * from TourImage where tourId = @tourId');
-    // console.log(result);
     return result.recordsets[0];
 }
 
