@@ -6,7 +6,7 @@ create database ToursDemoGrp01
 use ToursDemoGrp01
 go
 create table Tours(
-    id              int primary key     not null,
+    id              int identity (1,1) primary key     not null,
     name            varchar(200)                       not null unique,
     duration        int                                not null CHECK (duration >= 0),
     maxGroupSize    int                                not null CHECK (maxGroupSize >= 0),
