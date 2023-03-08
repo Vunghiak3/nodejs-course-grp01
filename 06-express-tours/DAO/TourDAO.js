@@ -32,13 +32,11 @@ exports.getTourById = async (id) => {
         .input('id', sql.Int, id)
         .query('select * from Tours where id = @id');
     // console.log(result);
-
     const tour = result.recordsets[0][0];
     const images = await TourImageDAO.getByTourId(id);
     const startDates = await TourStartDateDAO.getByTourId(id);
     tour.images = images.map(i => i.imgName);
     tour.startDates = startDates.map(d => d.date);
-
     return tour;
 }
 
