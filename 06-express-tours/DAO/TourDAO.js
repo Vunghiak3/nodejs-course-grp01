@@ -1,6 +1,6 @@
 const dbConfig = require('./../database/dbconfig');
 const sql = require('mssql');
-const fs = require("fs");
+
 exports.getAllTours = async () => {
     if (!dbConfig.db.pool){
         throw new Error('Not connected to db');
