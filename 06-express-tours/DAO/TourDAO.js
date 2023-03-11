@@ -239,22 +239,18 @@ exports.updateTourById = async (id, updateInfo) => {
         throw new Error('Invalid input param');
     }
     let request = dbConfig.db.pool.request();
-    request.input('id', sql.Int, id);
-    let query = 'update Tours set';
+    request.input('id', TourSchema.schema.id.sqlType, id);
+    let query = `update ${TourSchema.schemaName} set`;
     if (updateInfo.name){
-        request.input('name', sql.VarChar, updateInfo.name);
-        query += ' name = @name,';
+        request.input('name', TourSchema.schema.name.sqlType, updateInfo.name);
+        query += ` ${TourSchema.schema.name.name} = @name,`;
     }
     if (typeof updateInfo.price === 'number' && updateInfo.price >= 0){
-        request.input('price', sql.Int, updateInfo.price);
-        query += ' price = @price,';
-    }
-    if (typeof updateInfo.rating === 'number' && updateInfo.rating >= 0 && updateInfo.rating <= 5){
-        request.input('rating', sql.Float, updateInfo.rating);
-        query += ' rating = @rating,';
+        request.input('price', TourSchema.schema.price.sqlType, updateInfo.price);
+        query += ` ${TourSchema.schema.price.name} = @price,`;
     }
     query = query.slice(0, -1); //receive query without last character ','
-    query += ' where id = @id'
+    query += ` where ${TourSchema.schema.id.name} = @id`
     console.log(query);
     let result = await request.query(query);
     // console.log(result);
