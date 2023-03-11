@@ -3,160 +3,12 @@ const sql = require('mssql');
 const TourImageDAO = require('./TourImageDAO');
 const TourStartDateDAO = require('./TourStartDateDAO');
 
-exports.getAllTours = async () => {
-    if (!dbConfig.db.pool){
-        throw new Error('Not connected to db');
-    }
-    let request = dbConfig.db.pool.request();
-    const result = await request.query('select * from Tours');
-
-    const tours = result.recordsets[0];
-    for (let i = 0 ; i < tours.length; i++){
-        const tour = tours[i];
-        const images = await TourImageDAO.getByTourId(tour.id);
-        const startDates = await TourStartDateDAO.getByTourId(tour.id);
-        tour.images = images.map(i => i.imgName);
-        tour.startDates = startDates.map(d => d.date);
-    }
-
-    // console.log(result);
-    return tours;
-}
-
-// exports.getAllTours = async (filter) => {
+// exports.getAllTours = async () => {
 //     if (!dbConfig.db.pool){
 //         throw new Error('Not connected to db');
 //     }
-//     let query = `SELECT * from Tours`
-//     let countQuery = `SELECT COUNT(DISTINCT id) as totalItem from Tours`
-//
-//     const page = filter.page * 1 || 1;
-//     let pageSize = filter.pageSize * 1 || 10;
-//     if (pageSize > 10) {
-//         pageSize = 10;
-//     }
-//     const skip = (page - 1) * pageSize;
-//     let paginationStr = 'ORDER BY';
-//     let defaultSortStr = `createdAt asc`;
-//     let sortStr = '';
-//
-//     const sort = filter.sort;
-//
-//     delete filter.page;
-//     delete filter.pageSize;
-//     delete filter.sort;
-//
-//     if (filter){
-//         let filterStr = ''
-//         let i = 0;
-//         for (let criteria in filter){
-//             if (i > 0) {
-//                 filterStr += ' AND '
-//             }else{
-//                 filterStr += 'WHERE '
-//             }
-//
-//             if (
-//                 criteria === 'id' ||
-//                 criteria === 'duration' ||
-//                 criteria === 'maxGroupSize' ||
-//                 criteria === 'ratingsAverage' ||
-//                 criteria === 'ratingsQuantity' ||
-//                 criteria === 'price'
-//             ){
-//                 if (typeof filter[criteria] === 'object'){
-//                     let j = 0;
-//                     for (let criteriaOperator in filter[criteria]){
-//                         let operator;
-//                         let criterialVal;
-//
-//
-//                         if (criteriaOperator === 'gt'){
-//                             operator = '>'
-//                             criterialVal = filter[criteria]['gt'];
-//                         }else if (criteriaOperator === 'gte'){
-//                             operator = '>='
-//                             criterialVal = filter[criteria]['gte'];
-//                         }else if (criteriaOperator === 'lt'){
-//                             operator = '<'
-//                             criterialVal = filter[criteria]['lt'];
-//                         }else if (criteriaOperator === 'lte'){
-//                             operator = '<='
-//                             criterialVal = filter[criteria]['lte'];
-//                         }else if (criteriaOperator === 'eq'){
-//                             operator = '='
-//                             criterialVal = filter[criteria]['eq'];
-//                         }
-//
-//                         if (operator && criterialVal){
-//                             if (j > 0) {
-//                                 filterStr += ' AND '
-//                             }
-//                             filterStr += criteria + ' ' + operator + ' ' + criterialVal;
-//                             i++;
-//                             j++;
-//                         }
-//                     }
-//                 }else{
-//                     filterStr += criteria + ' = ' + filter[criteria];
-//                     i++;
-//                 }
-//             }else if (
-//                 criteria === 'name' ||
-//                 criteria === 'difficulty'
-//             ){
-//                 filterStr += criteria + " = '" + filter[criteria] + "'";
-//                 i++;
-//             }
-//         }
-//
-//         query += ' ' + filterStr ;
-//         countQuery += ' ' + filterStr;
-//     }
-//
-//
-//     if (sort){
-//         let sortCriterias = sort.split(',')
-//         if (sortCriterias.length > 0){
-//             // console.log(sortCriterias);
-//             sortCriterias.forEach(criteria => {
-//                 let sortDirection = 'asc';
-//                 let sortProp = criteria;
-//                 if (criteria.startsWith('-')){
-//                     sortDirection = 'desc';
-//                     sortProp = criteria.replace(/^-+/, '')
-//                 }
-//
-//                 sortStr += sortProp + ' ' + sortDirection + ',';
-//             })
-//         }
-//     }
-//
-//     if (sortStr){
-//         sortStr = sortStr.slice(0, -1); //delete last ','
-//     }else{
-//         sortStr = defaultSortStr;
-//     }
-//
-//     //offset 0 ROWS FETCH NEXT 10 ROWS ONLY;
-//     paginationStr += ' ' + sortStr + ' OFFSET ' + skip +
-//         ' ROWS FETCH NEXT ' + pageSize + ' ROWS ONLY'
-//
-//
-//     query += ' ' + paginationStr;
-//
-//     console.log(query);
-//
-//
 //     let request = dbConfig.db.pool.request();
-//     const result = await request.query(query);
-//     let countResult = await dbConfig.db.pool.request().query(countQuery);
-//
-//     let totalItem = 0;
-//     if (countResult.recordsets[0].length > 0) {
-//         totalItem = countResult.recordsets[0][0].totalItem;
-//     }
-//     let totalPage = Math.ceil(totalItem/pageSize); //round up
+//     const result = await request.query('select * from Tours');
 //
 //     const tours = result.recordsets[0];
 //     for (let i = 0 ; i < tours.length; i++){
@@ -168,14 +20,159 @@ exports.getAllTours = async () => {
 //     }
 //
 //     // console.log(result);
-//     return {
-//         page,
-//         pageSize,
-//         totalPage,
-//         totalItem,
-//         tours: tours
-//     };
+//     return tours;
 // }
+
+exports.getAllTours = async (filter) => {
+    if (!dbConfig.db.pool){
+        throw new Error('Not connected to db');
+    }
+    let query = `SELECT * from Tours`
+    let countQuery = `SELECT COUNT(DISTINCT id) as totalItem from Tours`
+
+    const page = filter.page * 1 || 1;
+    let pageSize = filter.pageSize * 1 || 10;
+    if (pageSize > 10) {
+        pageSize = 10;
+    }
+    const skip = (page - 1) * pageSize;
+    let paginationStr = 'ORDER BY';
+    let defaultSortStr = `createdAt asc`;
+    let sortStr = '';
+
+    const sort = filter.sort;
+
+    delete filter.page;
+    delete filter.pageSize;
+    delete filter.sort;
+
+    if (filter){
+        let filterStr = ''
+        let i = 0;
+        for (let criteria in filter){
+            if (i > 0) {
+                filterStr += ' AND '
+            }else{
+                filterStr += 'WHERE '
+            }
+
+            if (
+                criteria === 'id' ||
+                criteria === 'duration' ||
+                criteria === 'maxGroupSize' ||
+                criteria === 'ratingsAverage' ||
+                criteria === 'ratingsQuantity' ||
+                criteria === 'price'
+            ){
+                if (typeof filter[criteria] === 'object'){
+                    let j = 0;
+                    for (let criteriaOperator in filter[criteria]){
+                        let operator;
+                        let criterialVal;
+                        if (criteriaOperator === 'gt'){
+                            operator = '>'
+                            criterialVal = filter[criteria]['gt'];
+                        }else if (criteriaOperator === 'gte'){
+                            operator = '>='
+                            criterialVal = filter[criteria]['gte'];
+                        }else if (criteriaOperator === 'lt'){
+                            operator = '<'
+                            criterialVal = filter[criteria]['lt'];
+                        }else if (criteriaOperator === 'lte'){
+                            operator = '<='
+                            criterialVal = filter[criteria]['lte'];
+                        }else if (criteriaOperator === 'eq'){
+                            operator = '='
+                            criterialVal = filter[criteria]['eq'];
+                        }
+
+                        if (operator && criterialVal){
+                            if (j > 0) {
+                                filterStr += ' AND '
+                            }
+                            filterStr += criteria + ' ' + operator + ' ' + criterialVal;
+                            i++;
+                            j++;
+                        }
+                    }
+                }else{
+                    filterStr += criteria + ' = ' + filter[criteria];
+                    i++;
+                }
+            }else if (
+                criteria === 'name' ||
+                criteria === 'difficulty'
+            ){
+                filterStr += criteria + " = '" + filter[criteria] + "'";
+                i++;
+            }
+        }
+
+        query += ' ' + filterStr ;
+        countQuery += ' ' + filterStr;
+    }
+
+
+    if (sort){
+        let sortCriterias = sort.split(',')
+        if (sortCriterias.length > 0){
+            // console.log(sortCriterias);
+            sortCriterias.forEach(criteria => {
+                let sortDirection = 'asc';
+                let sortProp = criteria;
+                if (criteria.startsWith('-')){
+                    sortDirection = 'desc';
+                    sortProp = criteria.replace(/^-+/, '')
+                }
+
+                sortStr += sortProp + ' ' + sortDirection + ',';
+            })
+        }
+    }
+
+    if (sortStr){
+        sortStr = sortStr.slice(0, -1); //delete last ','
+    }else{
+        sortStr = defaultSortStr;
+    }
+
+    //offset 0 ROWS FETCH NEXT 10 ROWS ONLY;
+    paginationStr += ' ' + sortStr + ' OFFSET ' + skip +
+        ' ROWS FETCH NEXT ' + pageSize + ' ROWS ONLY'
+
+    query += ' ' + paginationStr;
+
+    console.log(query);
+
+
+    let request = dbConfig.db.pool.request();
+    const result = await request.query(query);
+    let countResult = await dbConfig.db.pool.request().query(countQuery);
+
+    let totalItem = 0;
+    if (countResult.recordsets[0].length > 0) {
+        totalItem = countResult.recordsets[0][0].totalItem;
+    }
+    let totalPage = Math.ceil(totalItem/pageSize); //round up
+
+    const tours = result.recordsets[0];
+    for (let i = 0 ; i < tours.length; i++){
+        const tour = tours[i];
+        const images = await TourImageDAO.getByTourId(tour.id);
+        const startDates = await TourStartDateDAO.getByTourId(tour.id);
+        tour.images = images.map(i => i.imgName);
+        tour.startDates = startDates.map(d => d.date);
+    }
+
+    // console.log(result);
+    return {
+        page,
+        pageSize,
+        totalPage,
+        totalItem,
+        tours
+    };
+}
 
 exports.getTourById = async (id) => {
     if (!dbConfig.db.pool){

@@ -123,35 +123,35 @@ exports.getTourHandler = async (req, res) => {
 }
 exports.getAllTourHandler = async (req, res) => {
     try{
-        console.log(req.requestTime);
-        const tours = await TourDAO.getAllTours();
-        let result = {
-            code: 200,
-            msg: 'OK',
-            data: {
-                tours
-            }
-        }
-        res.status(200)
-            .json(result);
+        console.log(req.query);
 
-
-
-        //implement pagination, sorting, filter !!!!
-        // console.log(req.query);
-        // const {page,pageSize,totalPage,totalItem,tours} = await TourDAO.getAllTours(req.query);
-        // // console.log(tours);
-        // res.status(200).json({
-        //     //200 - OK
-        //     status: 'success',
-        //     page,
-        //     pageSize,
-        //     totalPage,
-        //     totalItem,
+        // console.log(req.requestTime);
+        // const tours = await TourDAO.getAllTours();
+        // let result = {
+        //     code: 200,
+        //     msg: 'OK',
         //     data: {
         //         tours
-        //     },
-        // });
+        //     }
+        // }
+        // res.status(200)
+        //     .json(result);
+
+
+        // console.log(req.query);
+        const {page,pageSize,totalPage,totalItem,tours} = await TourDAO.getAllTours(req.query);
+        // console.log(tours);
+        res.status(200).json({
+            //200 - OK
+            status: 'success',
+            page,
+            pageSize,
+            totalPage,
+            totalItem,
+            data: {
+                tours
+            },
+        });
     }catch (e) {
         console.error(e);
         res
