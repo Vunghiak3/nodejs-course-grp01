@@ -7,7 +7,6 @@ const TourSchema = new ModelSchema(
         id: new ModelSchemaValidator({
             name: 'id',
             sqlType: sql.Int,
-            require: true,
         }),
         name: new ModelSchemaValidator({
             name: 'name',
