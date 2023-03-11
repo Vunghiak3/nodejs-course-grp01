@@ -58,7 +58,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "  {\n    \"name\": \"The Northern Lights 1111\",\n    \"price\": 1497,\n    \"rating\": 3\n  }",
+							"raw": "{\n    \"name\": \"The Snow Adventurer aaaa\",\n    \"duration\": 4,\n    \"maxGroupSize\": 10,\n    \"difficulty\": \"difficult\",\n    \"ratingsAverage\": 4.5,\n    \"ratingsQuantity\": 13,\n    \"price\": 997,\n    \"summary\": \"Exciting adventure in the snow with snowboarding and skiing\",\n    \"description\": \"Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua, ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum!\\nDolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur, exercitation ullamco laboris nisi ut aliquip. Lorem ipsum dolor sit amet, consectetur adipisicing elit!\",\n    \"imageCover\": \"tour-3-cover.jpg\",\n    \"images\": [\"tour-3-1.jpg\", \"tour-3-2.jpg\", \"tour-3-3.jpg\"],\n    \"startDates\": [\"2022-01-05,10:00\", \"2022-02-12,10:00\", \"2023-01-06,10:00\"]\n  }",
 							"options": {
 								"raw": {
 									"language": "json"
