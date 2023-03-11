@@ -4,6 +4,7 @@ class ModelSchemaValidator {
     constructor(
         config,
     ) {
+        this.name = config.name;
         this.sqlType = config.sqlType;
         switch (config.sqlType) {
             case sql.VarChar:

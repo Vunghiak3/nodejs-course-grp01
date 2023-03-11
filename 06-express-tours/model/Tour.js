@@ -89,6 +89,6 @@ const TourSchema = new ModelSchema(
             sqlType: sql.DateTime,
             require: true,
         }),
-    }, 'Tour', 'createdAt'
+    }, 'Tours', 'createdAt'
 )
 module.exports = TourSchema;
