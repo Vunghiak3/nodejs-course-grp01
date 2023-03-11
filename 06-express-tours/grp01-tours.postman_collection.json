@@ -9,50 +9,6 @@
 			"name": "tour",
 			"item": [
 				{
-					"name": "get tour by id",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "http://localhost:9001/api/v1/tours/3",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "9001",
-							"path": [
-								"api",
-								"v1",
-								"tours",
-								"3"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "delete tour by id",
-					"request": {
-						"method": "DELETE",
-						"header": [],
-						"url": {
-							"raw": "http://localhost:9001/api/v1/tours/2",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "9001",
-							"path": [
-								"api",
-								"v1",
-								"tours",
-								"2"
-							]
-						}
-					},
-					"response": []
-				},
-				{
 					"name": "get all tours",
 					"request": {
 						"method": "GET",
@@ -74,13 +30,35 @@
 					"response": []
 				},
 				{
+					"name": "get tour by id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:9001/api/v1/tours/7",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9001",
+							"path": [
+								"api",
+								"v1",
+								"tours",
+								"7"
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "Create tour",
 					"request": {
 						"method": "POST",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "  {\n    \"id\": 9,\n    \"name\": \"The Northern Lights\",\n    \"duration\": 3,\n    \"maxGroupSize\": 12,\n    \"difficulty\": \"easy\",\n    \"ratingsAverage\": 4.9,\n    \"ratingsQuantity\": 33,\n    \"price\": 1497,\n    \"summary\": \"Enjoy the Northern Lights in one of the best places in the world\",\n    \"description\": \"Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua, ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum!\\nDolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur, exercitation ullamco laboris nisi ut aliquip. Lorem ipsum dolor sit amet, consectetur adipisicing elit!\",\n    \"imageCover\": \"tour-9-cover.jpg\",\n    \"images\": [\"tour-9-1.jpg\", \"tour-9-2.jpg\", \"tour-9-3.jpg\"],\n    \"startDates\": [\"2021-12-16,10:00\", \"2022-01-16,10:00\", \"2022-12-12,10:00\"]\n  }",
+							"raw": "  {\n    \"name\": \"The Northern Lights 1111\",\n    \"price\": 1497,\n    \"rating\": 3\n  }",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -110,7 +88,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "  {\n    \"name\": \"AAAA\",\n    \"duration\": 15\n  }",
+							"raw": "  {\n    \"name\": \"AAAA\",\n    \"price\": 1497\n  }",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -129,6 +107,85 @@
 								"v1",
 								"tours",
 								"0"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete tour by id",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:9001/api/v1/tours/2",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9001",
+							"path": [
+								"api",
+								"v1",
+								"tours",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get all tours Advanced",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:9001/api/v1/tours?duration[gte]=5&duration[lt]=8&difficulty=easy&page=1&pageSize=5&sort=duration,-maxGroupSize",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9001",
+							"path": [
+								"api",
+								"v1",
+								"tours"
+							],
+							"query": [
+								{
+									"key": "duration[gte]",
+									"value": "5"
+								},
+								{
+									"key": "duration[lt]",
+									"value": "8"
+								},
+								{
+									"key": "price[lt]",
+									"value": "500",
+									"disabled": true
+								},
+								{
+									"key": "price[eq]",
+									"value": "397",
+									"disabled": true
+								},
+								{
+									"key": "difficulty",
+									"value": "easy"
+								},
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "pageSize",
+									"value": "5"
+								},
+								{
+									"key": "sort",
+									"value": "duration,-maxGroupSize"
+								}
 							]
 						}
 					},

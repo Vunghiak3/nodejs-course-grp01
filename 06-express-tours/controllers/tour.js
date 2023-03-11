@@ -134,6 +134,24 @@ exports.getAllTourHandler = async (req, res) => {
         }
         res.status(200)
             .json(result);
+
+
+
+        //implement pagination, sorting, filter !!!!
+        // console.log(req.query);
+        // const {page,pageSize,totalPage,totalItem,tours} = await TourDAO.getAllTours(req.query);
+        // // console.log(tours);
+        // res.status(200).json({
+        //     //200 - OK
+        //     status: 'success',
+        //     page,
+        //     pageSize,
+        //     totalPage,
+        //     totalItem,
+        //     data: {
+        //         tours
+        //     },
+        // });
     }catch (e) {
         console.error(e);
         res
