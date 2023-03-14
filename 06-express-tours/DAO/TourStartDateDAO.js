@@ -1,5 +1,6 @@
 const dbConfig = require('./../database/dbconfig');
 const sql = require('mssql');
+const TourStartDateSchema = require('../model/TourStartDate');
 
 exports.getByTourId = async (tourId) => {
     if (!dbConfig.db.pool) {
@@ -7,8 +8,8 @@ exports.getByTourId = async (tourId) => {
     }
     let result = await dbConfig.db.pool
         .request()
-        .input('tourId', sql.Int, tourId)
-        .query('SELECT * from TourStartDate where tourId = @tourId');
+        .input(TourStartDateSchema.schema.tourId.name, TourStartDateSchema.schema.tourId.sqlType, tourId)
+        .query(`SELECT * from ${TourStartDateSchema.schemaName} where ${TourStartDateSchema.schema.tourId.name} = @${TourStartDateSchema.schema.tourId.name}`);
     // console.log(result);
     return result.recordsets[0];
 }
@@ -20,8 +21,8 @@ exports.deleteByTourId = async (tourId) => {
 
     let result = await dbConfig.db.pool
         .request()
-        .input('tourId', sql.Int, tourId)
-        .query('delete TourStartDate where tourId = @tourId');
+        .input(TourStartDateSchema.schema.tourId.name, TourStartDateSchema.schema.tourId.sqlType, tourId)
+        .query(`delete ${TourStartDateSchema.schemaName} where ${TourStartDateSchema.schema.tourId.name} = @${TourStartDateSchema.schema.tourId.name}`);
 
     // console.log(result);
     return result.recordsets[0];
@@ -33,12 +34,12 @@ exports.addTourStartDateIfNotExisted = async (tourId, date) => {
     }
     let result = await dbConfig.db.pool
         .request()
-        .input('tourId', sql.Int, tourId)
-        .input('date', sql.DateTime, date)
+        .input(TourStartDateSchema.schema.tourId.name, TourStartDateSchema.schema.tourId.sqlType, tourId)
+        .input(TourStartDateSchema.schema.date.name, TourStartDateSchema.schema.date.sqlType, date)
         .query(
-            'insert into TourStartDate (tourId, date)' +
-            ' select @tourId, @date' +
-            ' WHERE NOT EXISTS(SELECT * FROM TourStartDate WHERE tourId = @tourId AND date = @date)'
+            `insert into ${TourStartDateSchema.schemaName} (${TourStartDateSchema.schema.tourId.name}, ${TourStartDateSchema.schema.date.name})` +
+            ` select @${TourStartDateSchema.schema.tourId.name}, @${TourStartDateSchema.schema.date.name}` +
+            ` WHERE NOT EXISTS(SELECT * FROM ${TourStartDateSchema.schemaName} WHERE ${TourStartDateSchema.schema.tourId.name} = @${TourStartDateSchema.schema.tourId.name} AND ${TourStartDateSchema.schema.date.name} = @${TourStartDateSchema.schema.date.name})`
         );
     // console.log(result);
     return result.recordsets;
@@ -48,7 +49,7 @@ exports.clearAll = async () => {
     if (!dbConfig.db.pool) {
         throw new Error('Not connected to db');
     }
-    let result = await dbConfig.db.pool.request().query('delete TourStartDate');
+    let result = await dbConfig.db.pool.request().query(`delete ${TourStartDateSchema.schemaName}`);
     // console.log(result);
     return result.recordsets;
 }

@@ -1,4 +1,4 @@
-exports.getFilterQuery = (schema, filter, page, pageSize, defaulSort) => {
+exports.getFilterQuery = (schema, filter, page, pageSize, defaultSort) => {
     let filterStr;
     let paginationStr;
 
@@ -6,7 +6,7 @@ exports.getFilterQuery = (schema, filter, page, pageSize, defaulSort) => {
 
     const skip = (page - 1) * pageSize;
     paginationStr = 'ORDER BY';
-    let defaultSortStr = `${defaulSort} asc`;
+    let defaultSortStr = `${defaultSort} asc`;
     let sortStr = '';
     const sort = filter.sort;
 

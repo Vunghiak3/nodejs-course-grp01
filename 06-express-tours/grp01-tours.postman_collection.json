@@ -118,7 +118,7 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:9001/api/v1/tours/2",
+							"raw": "http://localhost:9001/api/v1/tours/12",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -128,7 +128,7 @@
 								"api",
 								"v1",
 								"tours",
-								"2"
+								"12"
 							]
 						}
 					},
@@ -140,7 +140,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:9001/api/v1/tours?duration[gte]=5&duration[lt]=8&difficulty=easy&page=1&pageSize=5&sort=duration,-maxGroupSize",
+							"raw": "http://localhost:9001/api/v1/tours?price[lt]=500&page=1&pageSize=5&sort=duration,-maxGroupSize",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -154,16 +154,17 @@
 							"query": [
 								{
 									"key": "duration[gte]",
-									"value": "5"
+									"value": "5",
+									"disabled": true
 								},
 								{
 									"key": "duration[lt]",
-									"value": "8"
+									"value": "8",
+									"disabled": true
 								},
 								{
 									"key": "price[lt]",
-									"value": "500",
-									"disabled": true
+									"value": "500"
 								},
 								{
 									"key": "price[eq]",
@@ -172,7 +173,8 @@
 								},
 								{
 									"key": "difficulty",
-									"value": "easy"
+									"value": "easy",
+									"disabled": true
 								},
 								{
 									"key": "page",

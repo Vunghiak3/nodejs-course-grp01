@@ -1,8 +1,8 @@
 class ModelSchema {
-    constructor(schema, schemaName, defaulSort){
+    constructor(schema, schemaName, defaultSort){
         this.schema = schema;
         this.schemaName = schemaName;
-        this.defaulSort = defaulSort;
+        this.defaultSort = defaultSort;
     }
 
     validateData(data){
