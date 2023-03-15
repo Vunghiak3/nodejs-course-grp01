@@ -6,7 +6,7 @@ dotenv.config({
 });
 
 const dbConfig = require('./dbconfig');
-const appPool = new sql.ConnectionPool(dbConfig.config);
+const appPool = new sql.ConnectionPool(dbConfig.sqlConfig);
 
 const fs = require('fs');
 const TourImageDAO = require('./../DAO/TourImageDAO');
