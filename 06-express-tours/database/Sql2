@@ -91,7 +91,10 @@ WHERE NOT EXISTS(SELECT * FROM Tours WHERE id = 0)
 
 
 -- QUERY
-select * from Tours where duration >= 5 AND duration < 8 ORDER BY duration asc, maxGroupSize asc OFFSET 0 ROWS FETCH NEXT 10 ROWS ONLY;
+select * from Tours
+where duration >= 5 AND duration < 8
+ORDER BY duration asc, maxGroupSize asc
+OFFSET 0 ROWS FETCH NEXT 10 ROWS ONLY;
 
 SELECT COUNT(DISTINCT id) as totalItem from Tours
 
