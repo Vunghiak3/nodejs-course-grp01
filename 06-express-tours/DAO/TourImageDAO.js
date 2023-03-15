@@ -1,4 +1,5 @@
 const dbConfig = require('./../database/dbconfig');
+const dbUtils = require('../utils/dbUtils')
 const sql = require('mssql');
 const TourImageSchema = require('../model/TourImage');
 
@@ -32,15 +33,20 @@ exports.addTourImageIfNotExisted = async (tourId, imgName) => {
     if (!dbConfig.db.pool) {
         throw new Error('Not connected to db');
     }
-    let result = await dbConfig.db.pool
-        .request()
-        .input(TourImageSchema.schema.tourId.name, TourImageSchema.schema.tourId.sqlType, tourId)
-        .input(TourImageSchema.schema.imgName.name, TourImageSchema.schema.imgName.sqlType, imgName)
-        .query(
-            `insert into ${TourImageSchema.schemaName} (${TourImageSchema.schema.tourId.name}, ${TourImageSchema.schema.imgName.name})` +
-            ` select @${TourImageSchema.schema.tourId.name}, @${TourImageSchema.schema.imgName.name}` +
-            ` WHERE NOT EXISTS(SELECT * FROM ${TourImageSchema.schemaName} WHERE ${TourImageSchema.schema.tourId.name} = @${TourImageSchema.schema.tourId.name} AND ${TourImageSchema.schema.imgName.name} = @${TourImageSchema.schema.imgName.name})`
-        );
+    let insertData = TourImageSchema.validateData({
+        tourId: tourId,
+        imgName: imgName
+    });
+    let query = `insert into ${TourImageSchema.schemaName}`;
+    const {request, insertFieldNamesStr,insertValuesStr} = dbUtils.getInsertQuery(TourImageSchema.schema, dbConfig.db.pool.request(), insertData);
+    if (!insertFieldNamesStr || !insertValuesStr){
+        throw new Error('Invalid insert param');
+    }
+    query += ' (' + insertFieldNamesStr + ') select ' + insertValuesStr +
+        ` WHERE NOT EXISTS(SELECT * FROM ${TourImageSchema.schemaName} WHERE ${TourImageSchema.schema.tourId.name} = @${TourImageSchema.schema.tourId.name} AND ${TourImageSchema.schema.imgName.name} = @${TourImageSchema.schema.imgName.name})`;
+    // console.log(query);
+    //insert into TourImage (tourId,imgName) select @tourId,@imgName WHERE NOT EXISTS(SELECT * FROM TourImage tourId = @tourId AND imgName = @imgName)
+    let result = await request.query(query);
     // console.log(result);
     return result.recordsets;
 }

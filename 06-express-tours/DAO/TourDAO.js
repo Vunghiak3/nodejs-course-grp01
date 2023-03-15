@@ -176,23 +176,18 @@ exports.updateTourById = async (id, updateInfo) => {
     // where Id = 2
     if(!dbConfig.db.pool){throw new Error('Not connected to db');}
     if (!updateInfo){throw new Error('Invalid input param');}
-    let request = dbConfig.db.pool.request();
-    request.input(TourSchema.schema.id.name, TourSchema.schema.id.sqlType, id);
-
     let query = `update ${TourSchema.schemaName} set`;
-    if (updateInfo.name){
-        request.input(TourSchema.schema.name.name, TourSchema.schema.name.sqlType, updateInfo.name);
-        query += ` ${TourSchema.schema.name.name} = @${TourSchema.schema.name.name},`;
+    // 'update Tour set name = @name, ratingsAverage = @ratingsAverage, price = @price where id = @id';
+
+    const {request,updateStr} = dbUtils.getUpdateQuery(TourSchema.schema, dbConfig.db.pool.request(), updateInfo);
+    if (!updateStr){
+        throw new Error('Invalid update param');
     }
-    if (typeof updateInfo.price === 'number' && updateInfo.price >= 0){
-        request.input(TourSchema.schema.price.name, TourSchema.schema.price.sqlType, updateInfo.price);
-        query += ` ${TourSchema.schema.price.name} = @${TourSchema.schema.price.name},`;
-    }
-    query = query.slice(0, -1); //receive query without last character ','
-    query += ` where ${TourSchema.schema.id.name} = @${TourSchema.schema.id.name}`
+    request.input('id', TourSchema.schema.id.sqlType, id);
+    query += ' ' + updateStr + ` where ${TourSchema.schema.id.name} = @${TourSchema.schema.id.name}`;
     console.log(query);
     let result = await request.query(query);
-    console.log(result);
+    // console.log(result);
     return result.recordsets;
 }
 
