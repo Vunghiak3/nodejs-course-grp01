@@ -1,11 +1,11 @@
-const dbconfig = require('./../database/dbconfig');
+const dbConfig = require('./../database/dbconfig');
 const dbUtils = require('../utils/dbUtils')
 const UserSchema = require('../model/User');
 const StaticData = require('../utils/StaticData');
 const bcrypt = require('bcryptjs');
 
 exports.getAllUsers = async function(filter) {
-    if (!dbconfig.db.pool) {
+    if (!dbConfig.db.pool) {
         throw new Error('Not connected to db');
     }
 
@@ -23,7 +23,7 @@ exports.getAllUsers = async function(filter) {
 }
 
 exports.getUser = async function(id) {
-    if (!dbconfig.db.pool) {
+    if (!dbConfig.db.pool) {
         throw new Error('Not connected to db');
     }
     //TODO
@@ -32,7 +32,7 @@ exports.getUser = async function(id) {
 }
 
 exports.getUserByUserName = async function(userName) {
-    if (!dbconfig.db.pool) {
+    if (!dbConfig.db.pool) {
         throw new Error('Not connected to db');
     }
 
@@ -42,7 +42,7 @@ exports.getUserByUserName = async function(userName) {
 }
 
 exports.getUserByEmail = async function(email) {
-    if (!dbconfig.db.pool) {
+    if (!dbConfig.db.pool) {
         throw new Error('Not connected to db');
     }
     //TODO
@@ -51,7 +51,7 @@ exports.getUserByEmail = async function(email) {
 }
 
 exports.addUser = async function(user) {
-    if (!dbconfig.db.pool) {
+    if (!dbConfig.db.pool) {
         throw new Error('Not connected to db');
     }
 
@@ -59,7 +59,7 @@ exports.addUser = async function(user) {
 }
 
 exports.updateUser = async function(id, updateUser) {
-    if (!dbconfig.db.pool) {
+    if (!dbConfig.db.pool) {
         throw new Error('Not connected to db');
     }
 
@@ -67,7 +67,7 @@ exports.updateUser = async function(id, updateUser) {
 }
 
 exports.deleteUser = async function(id) {
-    if (!dbconfig.db.pool) {
+    if (!dbConfig.db.pool) {
         throw new Error('Not connected to db');
     }
 
@@ -75,18 +75,18 @@ exports.deleteUser = async function(id) {
 }
 
 exports.clearAll = async function() {
-    if (!dbconfig.db.pool) {
+    if (!dbConfig.db.pool) {
         throw new Error('Not connected to db');
     }
 
-    let result = await dbconfig.db.pool.request().query(`delete ${UserSchema.schemaName}`);
+    let result = await dbConfig.db.pool.request().query(`delete ${UserSchema.schemaName}`);
 
     // console.log(result);
     return result.recordsets;
 }
 
 exports.addUserIfNotExisted = async function(user) {
-    if (!dbconfig.db.pool) {
+    if (!dbConfig.db.pool) {
         throw new Error('Not connected to db');
     }
 
@@ -107,7 +107,7 @@ exports.addUserIfNotExisted = async function(user) {
 
     let query = `SET IDENTITY_INSERT ${UserSchema.schemaName} ON insert into ${UserSchema.schemaName}`;
 
-    const {request, insertFieldNamesStr,insertValuesStr} = dbUtils.getInsertQuery(UserSchema.schema, dbconfig.db.pool.request(), insertData);
+    const {request, insertFieldNamesStr,insertValuesStr} = dbUtils.getInsertQuery(UserSchema.schema, dbConfig.db.pool.request(), insertData);
     if (!insertFieldNamesStr || !insertValuesStr){
         throw new Error('Invalid insert param');
     }

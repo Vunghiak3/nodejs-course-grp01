@@ -1,10 +1,10 @@
-const dbconfig = require('./../database/dbconfig');
+const dbConfig = require('./../database/dbconfig');
 const dbUtils = require('../utils/dbUtils')
 const TourLocationSchema = require('../model/TourLocation');
 const LocationSchema = require('../model/Location');
 
 exports.getByTourId = async function(tourId) {
-  if (!dbconfig.db.pool) {
+  if (!dbConfig.db.pool) {
     throw new Error('Not connected to db');
   }
 
@@ -13,7 +13,7 @@ exports.getByTourId = async function(tourId) {
 
 
 exports.clearAll = async function() {
-  if (!dbconfig.db.pool) {
+  if (!dbConfig.db.pool) {
     throw new Error('Not connected to db');
   }
 
@@ -21,7 +21,7 @@ exports.clearAll = async function() {
 }
 
 exports.addTourLocationIfNotExisted = async function(tourLocation ) {
-  if (!dbconfig.db.pool) {
+  if (!dbConfig.db.pool) {
     throw new Error('Not connected to db');
   }
 

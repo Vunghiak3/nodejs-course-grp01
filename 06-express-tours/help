@@ -31,6 +31,15 @@ npm install tedious
 npm install mssql
 
 
+#Authentication
+#https://github.com/dcodeIO/bcrypt.js
+npm install bcryptjs
+
+#https://github.com/auth0/node-jsonwebtoken
+#https://jwt.io/
+npm install jsonwebtoken
+
+
 #URL with query param:
 http://localhost:9001/api/v1/tours?duration[gte]=5&duration[lt]=8&price[lt]=500&price[gt]=100
 gt: greater than

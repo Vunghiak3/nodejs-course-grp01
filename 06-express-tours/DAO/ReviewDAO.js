@@ -1,11 +1,11 @@
-const dbconfig = require('./dbconfig');
+const dbConfig = require('./../database/dbconfig');
 const dbUtils = require('../utils/dbUtils')
 const ReviewSchema = require('../model/Review');
 const StaticData = require('../utils/StaticData');
 
 
 exports.getAllReviews = async function(filter) {
-  if (!dbconfig.db.pool) {
+  if (!dbConfig.db.pool) {
     throw new Error('Not connected to db');
   }
 
@@ -22,21 +22,21 @@ exports.getAllReviews = async function(filter) {
 }
 
 exports.getReview = async function(id) {
-  if (!dbconfig.db.pool) {
+  if (!dbConfig.db.pool) {
     throw new Error('Not connected to db');
   }
   // TODO
 }
 
 exports.getReviewByTourAndUser = async function(tourId, userId) {
-  if (!dbconfig.db.pool) {
+  if (!dbConfig.db.pool) {
     throw new Error('Not connected to db');
   }
   // TODO
 }
 
 exports.addReview = async function(review) {
-  if (!dbconfig.db.pool) {
+  if (!dbConfig.db.pool) {
     throw new Error('Not connected to db');
   }
 
@@ -47,7 +47,7 @@ exports.addReview = async function(review) {
 }
 
 exports.updateReview = async function(id, updateReview) {
-  if (!dbconfig.db.pool) {
+  if (!dbConfig.db.pool) {
     throw new Error('Not connected to db');
   }
 
@@ -59,7 +59,7 @@ exports.updateReview = async function(id, updateReview) {
 }
 
 exports.deleteReview = async function(id) {
-  if (!dbconfig.db.pool) {
+  if (!dbConfig.db.pool) {
     throw new Error('Not connected to db');
   }
 
@@ -67,7 +67,7 @@ exports.deleteReview = async function(id) {
 }
 
 exports.clearAll = async function() {
-  if (!dbconfig.db.pool) {
+  if (!dbConfig.db.pool) {
     throw new Error('Not connected to db');
   }
 
@@ -75,7 +75,7 @@ exports.clearAll = async function() {
 }
 
 exports.addReviewIfNotExisted = async function(review) {
-  if (!dbconfig.db.pool) {
+  if (!dbConfig.db.pool) {
     throw new Error('Not connected to db');
   }
 
@@ -87,7 +87,7 @@ exports.addReviewIfNotExisted = async function(review) {
 
   let query = `SET IDENTITY_INSERT ${ReviewSchema.schemaName} ON insert into ${ReviewSchema.schemaName}`;
 
-  const {request, insertFieldNamesStr,insertValuesStr} = dbUtils.getInsertQuery(ReviewSchema.schema, dbconfig.db.pool.request(), insertData);
+  const {request, insertFieldNamesStr,insertValuesStr} = dbUtils.getInsertQuery(ReviewSchema.schema, dbConfig.db.pool.request(), insertData);
   if (!insertFieldNamesStr || !insertValuesStr){
     throw new Error('Invalid insert param');
   }

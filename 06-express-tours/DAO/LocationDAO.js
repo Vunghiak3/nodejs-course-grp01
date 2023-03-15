@@ -1,10 +1,10 @@
-const dbconfig = require('./dbconfig');
+const dbConfig = require('./../database/dbconfig');
 const dbUtils = require('../utils/dbUtils')
 const LocationSchema = require('../model/Location');
 
 
 exports.clearAll = async function() {
-  if (!dbconfig.db.pool) {
+  if (!dbConfig.db.pool) {
     throw new Error('Not connected to db');
   }
 
@@ -14,7 +14,7 @@ exports.clearAll = async function() {
 
 
 exports.addLocationIfNotExisted = async function(location) {
-  if (!dbconfig.db.pool) {
+  if (!dbConfig.db.pool) {
     throw new Error('Not connected to db');
   }
 
@@ -27,7 +27,7 @@ exports.addLocationIfNotExisted = async function(location) {
 
   let query = `SET IDENTITY_INSERT ${LocationSchema.schemaName} ON insert into ${LocationSchema.schemaName}`;
 
-  const {request, insertFieldNamesStr,insertValuesStr} = dbUtils.getInsertQuery(LocationSchema.schema, dbconfig.db.pool.request(), insertData);
+  const {request, insertFieldNamesStr,insertValuesStr} = dbUtils.getInsertQuery(LocationSchema.schema, dbConfig.db.pool.request(), insertData);
   if (!insertFieldNamesStr || !insertValuesStr){
     throw new Error('Invalid insert param');
   }
