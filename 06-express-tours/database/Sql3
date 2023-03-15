@@ -1,0 +1,110 @@
+use ToursDemoGrp01
+go
+Drop table TourImage
+Drop table TourStartDate
+Drop table TourLocation
+Drop table TourGuide
+Drop table Locations
+Drop table Reviews
+Drop table Tours
+Drop table Users
+Drop table Roles
+
+
+
+
+
+
+
+
+use ToursDemoGrp01
+go
+create table Tours(
+    id              int identity (1,1) primary key     not null,
+    name            varchar(200)                       not null unique,
+    duration        int                                not null CHECK (duration >= 0),
+    maxGroupSize    int                                not null CHECK (maxGroupSize >= 0),
+    difficulty      varchar(10)                        not null,
+    ratingsAverage  float default 4.5 CHECK (RatingsAverage >= 0 AND ratingsAverage <= 5),
+    ratingsQuantity int default 0 CHECK (RatingsQuantity >= 0),
+    price           int                                not null CHECK (price >= 0),
+    summary         varchar(max),
+    description     varchar(max)                       not null,
+    imageCover      varchar(200)                       not null,
+    createdAt       datetime default CURRENT_TIMESTAMP not null,
+)
+
+create table TourImage
+(
+    tourId int foreign key references Tours(id) not null,
+    imgName varchar(200) not null,
+)
+
+create table TourStartDate
+(
+    tourId int foreign key references Tours(id) not null,
+    date datetime not null,
+)
+
+
+create table Locations
+(
+    id        int identity (1,1) primary key     not null,
+    description varchar(max)    not null,
+    type        varchar(50)     not null,
+    lat         float           not null,
+    lng         float           not null,
+    address     varchar(300),
+    createdAt       datetime default CURRENT_TIMESTAMP not null,
+)
+
+
+create table TourLocation
+(
+    tourId int foreign key references Tours(id) not null,
+    locationId int foreign key references Locations(id) not null,
+    day           int                                not null CHECK (day >= 0),
+)
+
+
+create table Roles
+(
+    id        int primary key     not null,
+    name  varchar(50)                       not null unique,
+)
+
+insert into Roles
+    (id, name)
+values
+     (1, 'user'), (2, 'guide'), (3, 'lead-guide'), (4, 'admin')
+
+
+create table Users
+(
+    id        int identity (1,1) primary key     not null,
+    userName  varchar(100)                       not null unique,
+    email     varchar(100)                       not null unique,
+    name     varchar(200)                       not null,
+    password  varchar(200)                        not null,
+    passwordAt datetime default CURRENT_TIMESTAMP not null,
+    photo     varchar(200)                      ,
+    role int foreign key references Roles(id) default 1 not null,
+    createdAt datetime default CURRENT_TIMESTAMP not null,
+)
+
+create table TourGuide
+(
+    tourId int foreign key references Tours(id) not null,
+    userId int foreign key references Users(id) not null,
+)
+
+
+create table Reviews
+(
+    id        int identity (1,1) primary key            not null,
+    review    varchar(max)                              not null,
+    rating    int CHECK (rating >= 0 AND rating <= 5),
+    tourId    int foreign key references Tours (id) not  null,
+    userId    int foreign key references Users (id) not null,
+    createdAt datetime default CURRENT_TIMESTAMP        not null,
+)
