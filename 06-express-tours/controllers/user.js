@@ -18,7 +18,7 @@ exports.checkID = async (req, res, next, val) => {
 };
 
 //2) ROUTE HANDLERS
-exports.getAllUsers = (req, res) => {
+exports.getAllUsers = async (req, res) => {
     try{
         console.log(req.query);
 
@@ -49,7 +49,7 @@ exports.getAllUsers = (req, res) => {
     }
 };
 
-exports.getUser = (req, res) => {
+exports.getUser = async (req, res) => {
     try{
         console.log(req.params);
         const id = req.params.id * 1;
@@ -74,7 +74,7 @@ exports.getUser = (req, res) => {
     }
 };
 
-exports.createUser = (req, res) => {
+exports.createUser = async (req, res) => {
     const newUser = req.body;
     try {
         //TODO
@@ -97,7 +97,7 @@ exports.createUser = (req, res) => {
     }
 };
 
-exports.updateUser = (req, res) => {
+exports.updateUser = async (req, res) => {
     try{
         const id = req.params.id * 1;
         //TODO
@@ -124,7 +124,7 @@ exports.updateUser = (req, res) => {
     }
 };
 
-exports.deleteUser = (req, res) => {
+exports.deleteUser = async (req, res) => {
     try{
         const id = req.params.id*1;
         //TODO
