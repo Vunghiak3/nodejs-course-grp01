@@ -2,9 +2,10 @@ const dbConfig = require('./../database/dbconfig');
 const dbUtils = require('../utils/dbUtils')
 const StaticData = require('../utils/StaticData')
 
-const sql = require('mssql');
 const TourImageDAO = require('./TourImageDAO');
 const TourStartDateDAO = require('./TourStartDateDAO');
+const TourGuideDAO = require('./TourGuideDAO');
+const TourLocationDAO = require('./TourLocationDAO');
 const TourSchema = require('../model/Tour');
 
 async function setTourInfo(tour){
@@ -21,7 +22,7 @@ exports.getAllTours = async (filter) => {
         throw new Error('Not connected to db');
     }
     let query = `SELECT * from ${TourSchema.schemaName}`
-    let countQuery = `SELECT COUNT(DISTINCT id) as totalItem from ${TourSchema.schemaName}`
+    let countQuery = `SELECT COUNT(DISTINCT ${TourSchema.schema.id.name}) as totalItem from ${TourSchema.schemaName}`
 
     const page = filter.page * 1 || 1;
     let pageSize = filter.pageSize * 1 || StaticData.config.MAX_PAGE_SIZE;
@@ -38,7 +39,7 @@ exports.getAllTours = async (filter) => {
     if (paginationStr){
         query += ' ' + paginationStr;
     }
-    console.log(query);
+    // console.log(query);
     const result = await dbConfig.db.pool.request().query(query);
     let countResult = await dbConfig.db.pool.request().query(countQuery);
 
@@ -54,7 +55,6 @@ exports.getAllTours = async (filter) => {
         await setTourInfo(tour);
     }
 
-    // console.log(result);
     return {
         page,
         pageSize,
@@ -63,69 +63,6 @@ exports.getAllTours = async (filter) => {
         tours: tours
     };
 }
-
-
-// exports.getAllTours = async (filter) => {
-//     if (!dbConfig.db.pool) {
-//         throw new Error('Not connected to db');
-//     }
-//
-//     let query = `SELECT * from ${TourSchema.schemaName}`
-//     let countQuery = `SELECT COUNT(DISTINCT id) as totalItem from ${TourSchema.schemaName}`
-//
-//     const page = filter.page * 1 || 1;
-//     let pageSize = filter.pageSize * 1 || StaticData.config.MAX_PAGE_SIZE;
-//     if (pageSize > StaticData.config.MAX_PAGE_SIZE) {
-//         pageSize = StaticData.config.MAX_PAGE_SIZE;
-//     }
-//
-//     const {filterStr,paginationStr} = dbUtils.getFilterQuery(TourSchema.schema, filter,page ,pageSize, TourSchema.defaultSort);
-//
-//     console.log(filterStr);
-//     console.log(paginationStr);
-//
-//     if (filterStr){
-//         query += ' ' + filterStr;
-//         countQuery += ' ' + filterStr;
-//     }
-//
-//     if (paginationStr){
-//         query += ' ' + paginationStr;
-//     }
-//
-//     console.log(query);
-//     // console.log(countQuery);
-//
-//     let result = await dbConfig.db.pool.request().query(query);
-//
-//     let countResult = await dbConfig.db.pool.request().query(countQuery);
-//
-//     // console.log(result);
-//     // console.log(countResult);
-//
-//     let totalItem = 0;
-//     if (countResult.recordsets[0].length > 0) {
-//         totalItem = countResult.recordsets[0][0].totalItem;
-//     }
-//     let totalPage = Math.ceil(totalItem/pageSize); //round up
-//     // console.log(totalItem);
-//     // console.log(totalPage);
-//
-//     const tours = result.recordsets[0];
-//     for (let i = 0 ; i < tours.length; i++){
-//         const tour = tours[i];
-//         await setTourInfo(tour);
-//     }
-//
-//     return {
-//         page,
-//         pageSize,
-//         totalPage,
-//         totalItem,
-//         tours
-//     };
-// }
-
 
 exports.getTourById = async (id) => {
     if (!dbConfig.db.pool){
@@ -183,7 +120,7 @@ exports.updateTourById = async (id, updateInfo) => {
     if (!updateStr){
         throw new Error('Invalid update param');
     }
-    request.input('id', TourSchema.schema.id.sqlType, id);
+    request.input(TourSchema.schema.id.name, TourSchema.schema.id.sqlType, id);
     query += ' ' + updateStr + ` where ${TourSchema.schema.id.name} = @${TourSchema.schema.id.name}`;
     console.log(query);
     let result = await request.query(query);

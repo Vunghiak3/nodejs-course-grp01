@@ -20,7 +20,7 @@ exports.checkTourById = async (req, res, next, val) => {
             .status(500)        // 500 - Internal Error
             .json({
                 code: 500,
-                msg: e
+                msg: e.toString()
             });
     }
     next();
@@ -59,7 +59,7 @@ exports.createTourHandler = async (req, res) => {
             .status(500)
             .json({
                 code: 500,
-                msg: e
+                msg: e.toString()
             });
     }
 
@@ -74,7 +74,7 @@ exports.updateTourHandler = async (req, res) => {
             .status(200)
             .json({
                 code: 200,
-                msg: `Update id: ${id} successfully!`,
+                msg: `Update tour with id: ${id} successfully!`,
                 data: {
                     tour
                 }
@@ -85,7 +85,7 @@ exports.updateTourHandler = async (req, res) => {
             .status(500)        // 500 - Internal Error
             .json({
                 code: 500,
-                msg: e
+                msg: e.toString()
             });
     }
 }
@@ -107,14 +107,13 @@ exports.deleteTourHandler = async (req, res) => {
             .status(500)        // 500 - Internal Error
             .json({
                 code: 500,
-                msg: e
+                msg: e.toString()
             });
     }
 }
 exports.getTourHandler = async (req, res) => {
     try{
         console.log(req.params);
-        const id = req.params.id * 1;
         const tour = req.tour;
 
         let result = {
@@ -130,34 +129,19 @@ exports.getTourHandler = async (req, res) => {
             .status(500)        // 500 - Internal Error
             .json({
                 code: 500,
-                msg: e
+                msg: e.toString()
             });
     }
 
 }
 exports.getAllTourHandler = async (req, res) => {
     try{
-        console.log(req.query);
-
-        // console.log(req.requestTime);
-        // const tours = await TourDAO.getAllTours();
-        // let result = {
-        //     code: 200,
-        //     msg: 'OK',
-        //     data: {
-        //         tours
-        //     }
-        // }
-        // res.status(200)
-        //     .json(result);
-
-
         // console.log(req.query);
         const {page,pageSize,totalPage,totalItem,tours} = await TourDAO.getAllTours(req.query);
-        // console.log(tours);
         res.status(200).json({
             //200 - OK
-            status: 'success',
+            code: 200,
+            msg: 'OK',
             page,
             pageSize,
             totalPage,
@@ -172,7 +156,7 @@ exports.getAllTourHandler = async (req, res) => {
             .status(500)        // 500 - Internal Error
             .json({
                 code: 500,
-                msg: e
+                msg: e.toString()
             });
     }
 }

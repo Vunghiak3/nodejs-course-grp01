@@ -8,7 +8,8 @@ exports.clearAll = async function() {
     throw new Error('Not connected to db');
   }
 
-  // TODO
+  let result = await dbConfig.db.pool.request().query(`delete ${LocationSchema.schemaName}`);
+  return result.recordsets;
 }
 
 
@@ -23,8 +24,6 @@ exports.addLocationIfNotExisted = async function(location) {
 
   let insertData = LocationSchema.validateData(location);
 
-  // console.log(insertData);
-
   let query = `SET IDENTITY_INSERT ${LocationSchema.schemaName} ON insert into ${LocationSchema.schemaName}`;
 
   const {request, insertFieldNamesStr,insertValuesStr} = dbUtils.getInsertQuery(LocationSchema.schema, dbConfig.db.pool.request(), insertData);
@@ -35,10 +34,7 @@ exports.addLocationIfNotExisted = async function(location) {
   query += ' (' + insertFieldNamesStr + ') select ' + insertValuesStr +
       ` WHERE NOT EXISTS(SELECT * FROM ${LocationSchema.schemaName} WHERE ${LocationSchema.schema.id.name} = @${LocationSchema.schema.id.name})` +
       ` SET IDENTITY_INSERT ${LocationSchema.schemaName} OFF`;
-  // console.log(query);
 
   let result = await request.query(query);
-
-  // console.log(result);
   return result.recordsets;
 }
