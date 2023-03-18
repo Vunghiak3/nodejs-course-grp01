@@ -113,6 +113,12 @@ exports.addUser = async function(user) {
     user.createdAt = now;
     // console.log('now',now);
 
+    user.role = StaticData.AUTH.Role[user.role];
+    if (!user.role){
+        console.log(user);
+        throw new Error('Invalid user role');
+    }
+
     let insertData = UserSchema.validateData(user);
     console.log(insertData);
 
