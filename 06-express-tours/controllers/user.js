@@ -4,7 +4,15 @@ const UserDAO = require('./../DAO/UserDAO')
 exports.checkID = async (req, res, next, val) => {
     try{
         const id = val;
-        //TODO
+        let user = await UserDAO.getUser(id);
+        if (!user){
+            return res.status(404)     /// 404 - NOT FOUND!
+                .json({
+                    code: 404,
+                    msg: `Not found user with id ${id}`,
+                });
+        }
+        req.user = user;
     }catch (e) {
         console.error(e);
         return res
@@ -17,27 +25,22 @@ exports.checkID = async (req, res, next, val) => {
     next();
 };
 
-//2) ROUTE HANDLERS
 exports.getAllUsers = async (req, res) => {
     try{
-        console.log(req.query);
-
-        //TODO
-        throw new Error('Not implemented');
-
-
-        // res.status(200).json({
-        //     //200 - OK
-        //     code: 200,
-        //     msg: 'OK',
-        //     page,
-        //     pageSize,
-        //     totalPage,
-        //     totalItem,
-        //     data: {
-        //         users
-        //     },
-        // });
+        // console.log(req.query);
+        const {page,pageSize,totalPage,totalItem,users} = await UserDAO.getAllUsers(req.query);
+        res.status(200).json({
+            //200 - OK
+            code: 200,
+            msg: 'OK',
+            page,
+            pageSize,
+            totalPage,
+            totalItem,
+            data: {
+                users
+            },
+        });
     }catch (e) {
         console.error(e);
         res
@@ -51,18 +54,13 @@ exports.getAllUsers = async (req, res) => {
 
 exports.getUser = async (req, res) => {
     try{
-        console.log(req.params);
-        const id = req.params.id * 1;
-        //TODO
-        throw new Error('Not implemented');
-
-
-        // res.status(200)
-        //     .json({
-        //         code: 200,
-        //         msg: 'OK',
-        //         data: {user}
-        //     });
+        const user = req.user;
+        res.status(200)
+            .json({
+                code: 200,
+                msg: 'OK',
+                data: {user}
+            });
     }catch (e) {
         console.error(e);
         res
@@ -77,15 +75,17 @@ exports.getUser = async (req, res) => {
 exports.createUser = async (req, res) => {
     const newUser = req.body;
     try {
-        //TODO
-        throw new Error('Not implemented');
-
-        // res.status(200)
-        //     .json({
-        //         code: 200,
-        //         msg: 'Create new user successfully!',
-        //         data: {user}
-        //     });
+        await UserDAO.addUser(newUser);
+        let user = await UserDAO.getUserByUserName(newUser.userName);
+        return res
+            .status(200)
+            .json({
+                code: 200,
+                msg: `Create new user successfully!`,
+                data: {
+                    user
+                }
+            })
     }catch (e){
         console.log(e);
         res
@@ -100,19 +100,18 @@ exports.createUser = async (req, res) => {
 exports.updateUser = async (req, res) => {
     try{
         const id = req.params.id * 1;
-        //TODO
-        throw new Error('Not implemented');
-
-
-        // res
-        // .status(200)
-        // .json({
-        //     code: 200,
-        //     msg: `Update user with id: ${id} successfully!`,
-        //     data: {
-        //         user
-        //     }
-        // })
+        const updateUser = req.body;
+        await UserDAO.updateUser(id , updateUser);
+        const user = await UserDAO.getUser(id);
+        res
+            .status(200)
+            .json({
+                code: 200,
+                msg: `Update user with id: ${id} successfully!`,
+                data: {
+                    user
+                }
+            })
     }catch (e) {
         console.error(e);
         res
@@ -127,15 +126,14 @@ exports.updateUser = async (req, res) => {
 exports.deleteUser = async (req, res) => {
     try{
         const id = req.params.id*1;
-        //TODO
-        throw new Error('Not implemented');
+        await UserDAO.deleteUser(id);
 
-        // res
-        //     .status(200)
-        //     .json({
-        //         code: 200,
-        //         msg: `Delete user with ${id} successfully!`,
-        //     })
+        res
+            .status(200)
+            .json({
+                code: 200,
+                msg: `Delete user with ${id} successfully!`,
+            })
     }catch (e) {
         console.error(e);
         res

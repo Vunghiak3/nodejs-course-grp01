@@ -4,7 +4,15 @@ const ReviewDAO = require('./../DAO/ReviewDAO')
 exports.checkID = async (req, res, next, val) => {
     try{
         const id = val;
-       //TODO
+        let review = await ReviewDAO.getReview(id);
+        if (!review){
+            return res.status(404)     /// 404 - NOT FOUND!
+                .json({
+                    code: 404,
+                    msg: `Not found review with id ${id}`,
+                });
+        }
+        req.review = review;
     }catch (e) {
         console.error(e);
         return res
@@ -21,21 +29,19 @@ exports.getAllReviews = async (req, res, next) => {
     try{
         console.log(req.query);
 
-        //TODO
-        throw new Error('Not implemented');
-
-        // res.status(200).json({
-        //     //200 - OK
-        //     code: 200,
-        //     msg: 'OK',
-        //     page,
-        //     pageSize,
-        //     totalPage,
-        //     totalItem,
-        //     data: {
-        //         reviews
-        //     },
-        // });
+        const {page,pageSize,totalPage,totalItem,reviews} = await ReviewDAO.getAllReviews(req.query);
+        res.status(200).json({
+            //200 - OK
+            code: 200,
+            msg: 'OK',
+            page,
+            pageSize,
+            totalPage,
+            totalItem,
+            data: {
+                reviews
+            },
+        });
     }catch (e) {
         console.error(e);
         res
@@ -49,18 +55,15 @@ exports.getAllReviews = async (req, res, next) => {
 
 exports.getReview = async (req, res, next) => {
     try{
-        console.log(req.params);
-        const id = req.params.id * 1;
-        //TODO
-        throw new Error('Not implemented');
+        // console.log(req.params);
+        const review = req.review;
 
-
-        // res.status(200)
-        //     .json({
-        //         code: 200,
-        //         msg: 'OK',
-        //         data: {review}
-        //     });
+        res.status(200)
+            .json({
+                code: 200,
+                msg: 'OK',
+                data: {review}
+            });
     }catch (e) {
         console.error(e);
         res
@@ -72,19 +75,16 @@ exports.getReview = async (req, res, next) => {
     }
 };
 
-
 exports.createReview = async (req, res, next) => {
-    const newTour = req.body;
+    const newReview = req.body;
     try {
-        //TODO
-        throw new Error('Not implemented');
-
-        // res.status(200)
-        //     .json({
-        //         code: 200,
-        //         msg: 'Create new review successfully!',
-        //         data: {review}
-        //     });
+        await ReviewDAO.addReview(newReview);
+        return res
+            .status(200)
+            .json({
+                code: 200,
+                msg: `Create new review successfully!`,
+            })
     }catch (e){
         console.log(e);
         res
@@ -99,19 +99,18 @@ exports.createReview = async (req, res, next) => {
 exports.updateReview = async (req, res, next) => {
     try{
         const id = req.params.id * 1;
-        //TODO
-        throw new Error('Not implemented');
-
-
-        // res
-        // .status(200)
-        // .json({
-        //     code: 200,
-        //     msg: `Update review with id: ${id} successfully!`,
-        //     data: {
-        //         review
-        //     }
-        // })
+        const updateReview = req.body;
+        await ReviewDAO.updateReview(id, updateReview);
+        const review = await ReviewDAO.getReview(id);
+        res
+            .status(200)
+            .json({
+                code: 200,
+                msg: `Update review with id: ${id} successfully!`,
+                data: {
+                    review
+                }
+            })
     }catch (e) {
         console.error(e);
         res
@@ -126,15 +125,13 @@ exports.updateReview = async (req, res, next) => {
 exports.deleteReview = async (req, res, next) => {
     try{
         const id = req.params.id*1;
-        //TODO
-        throw new Error('Not implemented');
-
-        // res
-        //     .status(200)
-        //     .json({
-        //         code: 200,
-        //         msg: `Delete review with ${id} successfully!`,
-        //     })
+        await ReviewDAO.deleteReview(id);
+        res
+            .status(200)
+            .json({
+                code: 200,
+                msg: `Delete review with ${id} successfully!`,
+            })
     }catch (e) {
         console.error(e);
         res

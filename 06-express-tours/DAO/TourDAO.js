@@ -19,8 +19,6 @@ async function setTourInfo(tour){
     tour.locations = locations;
     return tour
 }
-
-
 exports.getAllTours = async (filter) => {
     if (!dbConfig.db.pool){
         throw new Error('Not connected to db');
@@ -67,7 +65,6 @@ exports.getAllTours = async (filter) => {
         tours: tours
     };
 }
-
 exports.getTourById = async (id) => {
     if (!dbConfig.db.pool){
         throw new Error('Not connected to db');

@@ -278,7 +278,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"name\": \"Jonas Schmedtmann\",\n    \"photo\": \"user-1.jpg\"\n  }",
+							"raw": "{\n    \"name\": \"JJJJ\",\n    \"photo\": \"user-1.jpg\"\n  }",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -286,7 +286,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:9001/api/v1/users/0",
+							"raw": "http://localhost:9001/api/v1/users/21",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -296,7 +296,7 @@
 								"api",
 								"v1",
 								"users",
-								"0"
+								"21"
 							]
 						}
 					},
@@ -330,7 +330,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:9001/api/v1/users?userName=lourdes&email=loulou@example.com&role=user&page=1&pageSize=5&sort=name",
+							"raw": "http://localhost:9001/api/v1/users?role=1&page=1&pageSize=5&sort=name",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -344,15 +344,17 @@
 							"query": [
 								{
 									"key": "userName",
-									"value": "lourdes"
+									"value": "lourdes",
+									"disabled": true
 								},
 								{
 									"key": "email",
-									"value": "loulou@example.com"
+									"value": "loulou@example.com",
+									"disabled": true
 								},
 								{
 									"key": "role",
-									"value": "user"
+									"value": "1"
 								},
 								{
 									"key": "page",
@@ -426,7 +428,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "  {\n    \"review\": \"Tempus curabitur faucibus auctor bibendum duis gravida tincidunt litora himenaeos facilisis vivamus vehicula potenti semper fusce suspendisse sagittis!\",\n    \"rating\": 4,\n    \"user\": 2,\n    \"tour\": 3\n  }",
+							"raw": "  {\n    \"review\": \"Tempus curabitur faucibus auctor bibendum duis gravida tincidunt litora himenaeos facilisis vivamus vehicula potenti semper fusce suspendisse sagittis!\",\n    \"rating\": 4,\n    \"userId\": 2,\n    \"tourId\": 3\n  }",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -464,7 +466,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:9001/api/v1/reviews/0",
+							"raw": "http://localhost:9001/api/v1/reviews/1",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -474,7 +476,7 @@
 								"api",
 								"v1",
 								"reviews",
-								"0"
+								"1"
 							]
 						}
 					},
@@ -486,7 +488,7 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:9001/api/v1/reviews/12",
+							"raw": "http://localhost:9001/api/v1/reviews/13",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -496,7 +498,7 @@
 								"api",
 								"v1",
 								"reviews",
-								"12"
+								"13"
 							]
 						}
 					},
