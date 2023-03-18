@@ -7,16 +7,42 @@ exports.getByTourId = async function(tourId) {
   if (!dbConfig.db.pool) {
     throw new Error('Not connected to db');
   }
-
-  // TODO - 2
-  `use ToursDemoGrp01
-  go
-  SELECT t.tourId, t.locationId, t.day, l.description, l.type, l.lat, l.lng, l.address
-  from TourLocation as t 
-      left join Locations as l
-      on t.locationId = l.id
-  where t.tourId = 1
-  ORDER BY t.day`
+  let query = `SELECT t.${TourLocationSchema.schema.tourId.name}, `+
+      `t.${TourLocationSchema.schema.locationId.name}, `+
+      `t.${TourLocationSchema.schema.day.name}, `+
+      `l.${LocationSchema.schema.description.name}, `+
+      `l.${LocationSchema.schema.type.name}, l.${LocationSchema.schema.lat.name}, `+
+      `l.${LocationSchema.schema.lng.name}, l.${LocationSchema.schema.address.name}` +
+      ` from ${TourLocationSchema.schemaName} as t`+
+      ` left join ${LocationSchema.schemaName} as l`+
+      ` on t.${TourLocationSchema.schema.locationId.name} = l.${LocationSchema.schema.id.name}` +
+      ` where t.${TourLocationSchema.schema.tourId.name} = @${TourLocationSchema.schema.tourId.name}` +
+      ` ORDER BY t.${TourLocationSchema.schema.day.name}`;
+  // console.log(query);
+  let result = await dbConfig.db.pool
+      .request()
+      .input(TourLocationSchema.schema.tourId.name, TourLocationSchema.schema.tourId.sqlType, tourId)
+      .query(query);
+  console.log(result);
+  return result.recordsets[0].map(x => {
+    return {
+      locationId: x.locationId,
+      day: x.day,
+      description: x.description,
+      type: x.type,
+      lat: x.lat,
+      lng: x.lng,
+      address: x.address,
+    }
+  });
+  // `use ToursDemoGrp01
+  // go
+  // SELECT t.tourId, t.locationId, t.day, l.description, l.type, l.lat, l.lng, l.address
+  // from TourLocation as t
+  //     left join Locations as l
+  //     on t.locationId = l.id
+  // where t.tourId = 1
+  // ORDER BY t.day`
 }
 
 

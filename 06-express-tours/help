@@ -39,6 +39,9 @@ npm install bcryptjs
 #https://jwt.io/
 npm install jsonwebtoken
 
+cd database
+node dbimport-advanced.js --import
+
 
 #URL with query param:
 http://localhost:9001/api/v1/tours?duration[gte]=5&duration[lt]=8&price[lt]=500&price[gt]=100
