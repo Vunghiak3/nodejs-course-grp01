@@ -113,16 +113,14 @@ exports.addUser = async function(user) {
     user.createdAt = now;
     // console.log('now',now);
 
-    user.role = StaticData.AUTH.Role[user.role];
     if (!user.role){
-        console.log(user);
         throw new Error('Invalid user role');
     }
 
     let insertData = UserSchema.validateData(user);
     console.log(insertData);
 
-    //hash the password with cost of 12
+    //hash the password with hashing algorithm called bcrypt with cost of 10 => how CPU intensive this operation will be
     insertData.password = await bcrypt.hash(insertData.password, 10);
 
 
