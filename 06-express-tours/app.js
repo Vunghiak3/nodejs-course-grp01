@@ -2,6 +2,8 @@ const express = require('express');
 const morgan = require('morgan');
 
 const app = express();
+
+
 app.use(morgan('dev'));
 //custom middleware
 app.use((req, res, next) => {

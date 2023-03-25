@@ -123,7 +123,7 @@ exports.updateTourById = async (id, updateInfo) => {
     }
     request.input(TourSchema.schema.id.name, TourSchema.schema.id.sqlType, id);
     query += ' ' + updateStr + ` where ${TourSchema.schema.id.name} = @${TourSchema.schema.id.name}`;
-    console.log(query);
+    // console.log(query);
     let result = await request.query(query);
     // console.log(result);
     return result.recordsets;
@@ -143,7 +143,7 @@ exports.createNewTour = async(tour) => {
     const {request, insertFieldNamesStr,insertValuesStr} = dbUtils.getInsertQuery(TourSchema.schema, dbConfig.db.pool.request(), insertData);
 
     query += ' (' + insertFieldNamesStr + ') values (' + insertValuesStr + ')';
-    console.log(query);
+    // console.log(query);
 
     let result = await request.query(query);
     // console.log(result);
