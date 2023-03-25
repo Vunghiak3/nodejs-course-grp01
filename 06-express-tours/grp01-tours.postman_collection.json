@@ -12,7 +12,13 @@
 					"name": "get all tours",
 					"request": {
 						"method": "GET",
-						"header": [],
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MjMsInVzZXJuYW1lIjoidGVzdCIsImlhdCI6MTY3OTczNjMyOSwiZXhwIjoxNjc5NzU3OTI5fQ.ShY2ZmgSJqHAMYMwoZ0PO8DazOpIHaFq1NYHarI_bvI",
+								"type": "default"
+							}
+						],
 						"url": {
 							"raw": "http://localhost:9001/api/v1/tours",
 							"protocol": "http",
@@ -33,7 +39,13 @@
 					"name": "get tour by id",
 					"request": {
 						"method": "GET",
-						"header": [],
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MjMsInVzZXJuYW1lIjoidGVzdCIsImlhdCI6MTY3OTczNjMyOSwiZXhwIjoxNjc5NzU3OTI5fQ.ShY2ZmgSJqHAMYMwoZ0PO8DazOpIHaFq1NYHarI_bvI",
+								"type": "default"
+							}
+						],
 						"url": {
 							"raw": "http://localhost:9001/api/v1/tours/7",
 							"protocol": "http",
@@ -55,10 +67,16 @@
 					"name": "Create tour",
 					"request": {
 						"method": "POST",
-						"header": [],
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwidXNlcm5hbWUiOiJhZG1pbiIsImlhdCI6MTY3OTczODM2MSwiZXhwIjoxNjc5NzU5OTYxfQ.LNhZQ7QjfTinL53VOShaDoRD8X6PDkApfBouf_O01qU",
+								"type": "default"
+							}
+						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"name\": \"The Snow Adventurer aaaa\",\n    \"duration\": 4,\n    \"maxGroupSize\": 10,\n    \"difficulty\": \"difficult\",\n    \"ratingsAverage\": 4.5,\n    \"ratingsQuantity\": 13,\n    \"price\": 997,\n    \"summary\": \"Exciting adventure in the snow with snowboarding and skiing\",\n    \"description\": \"Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua, ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum!\\nDolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur, exercitation ullamco laboris nisi ut aliquip. Lorem ipsum dolor sit amet, consectetur adipisicing elit!\",\n    \"imageCover\": \"tour-3-cover.jpg\",\n    \"images\": [\"tour-3-1.jpg\", \"tour-3-2.jpg\", \"tour-3-3.jpg\"],\n    \"startDates\": [\"2022-01-05,10:00\", \"2022-02-12,10:00\", \"2023-01-06,10:00\"]\n  }",
+							"raw": "{\n    \"name\": \"The Snow Adventurer aaa12132a\",\n    \"duration\": 4,\n    \"maxGroupSize\": 10,\n    \"difficulty\": \"difficult\",\n    \"ratingsAverage\": 4.5,\n    \"ratingsQuantity\": 13,\n    \"price\": 997,\n    \"summary\": \"Exciting adventure in the snow with snowboarding and skiing\",\n    \"description\": \"Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua, ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum!\\nDolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur, exercitation ullamco laboris nisi ut aliquip. Lorem ipsum dolor sit amet, consectetur adipisicing elit!\",\n    \"imageCover\": \"tour-3-cover.jpg\",\n    \"images\": [\"tour-3-1.jpg\", \"tour-3-2.jpg\", \"tour-3-3.jpg\"],\n    \"startDates\": [\"2022-01-05,10:00\", \"2022-02-12,10:00\", \"2023-01-06,10:00\"]\n  }",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -310,7 +328,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"userName\": \"AAA\",\n    \"name\": \"Jonas Schmedtmann\",\n    \"email\": \"AAA@test.com\",\n    \"role\": \"user\",\n    \"active\": true,\n    \"photo\": \"user-1.jpg\",\n    \"password\": \"123456\"\n  }",
+							"raw": "{\n    \"userName\": \"AAA\",\n    \"name\": \"Jonas Schmedtmann\",\n    \"email\": \"AAA@test.com\",\n    \"role\": \"1\",\n    \"active\": true,\n    \"photo\": \"user-1.jpg\",\n    \"password\": \"123456\"\n  }",
 							"options": {
 								"raw": {
 									"language": "json"
