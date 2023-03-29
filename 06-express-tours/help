@@ -52,6 +52,9 @@ lte: less than or equal
 eq: equal
 
 
+#using template engine to render view to client
+#express template engines:Pug, EJS, Handlebars
+npm install pug
 
 
 
